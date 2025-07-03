@@ -14,8 +14,8 @@ Project Functionalities
 - Simple Dashboard Analytics
 
 Project Duration
-Started: June 23, 2025
-Ended: 
+- Started: June 23, 2025
+- Ended: 
 
 Tech Stack
 - MySql
