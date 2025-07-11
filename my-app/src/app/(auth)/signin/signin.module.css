@@ -1,60 +1,47 @@
 .container {
+  background-image: url('/images/jewelryBg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #2061e4;
   padding: 1rem;
   color: black;
 }
 
-.formContainer {
-  width: 400px;
+.formContainer{
+  width: 450px;
   height: 500px;
-  background-color: aliceblue;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: white;
   border-radius: 10px;
-}
-
-.form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  padding: 2rem;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
 }
-
-.form label {
-  font-weight: 500;
-}
-
-.form input {
-  padding: 0.5rem;
-  border: 1px solid black;
-  border-radius: 5px;
-}
-
-.form button {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 5px;
+.formContainer h1{
+  font-size: 24px;
   font-weight: bold;
-  cursor: pointer;
 }
 
-.form button:hover {
-  background-color: #333;
+.form{
+  height: 350px;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.inputBox{
+  width: 300px;
+  height: 50px;
+  border: 1px solid;
 }
 
-.formHeader{
-    margin-bottom: 40px;
 
-    font-weight: bold;
-    font-size: 22px;
-    text-align: center;
-}
