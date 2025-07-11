@@ -1,8 +1,46 @@
+'use client'
+
 import React from 'react'
 import styles from './signup.module.css'
 import Box from '../components/Box'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 
 const Signup = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleSignUp = async () => {
+  setLoading(true);
+  try {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    });
+
+    if (!res.ok) {
+      const { message } = await res.json();
+      setError(message || 'Sign up failed');
+      return;
+    }
+
+    // After signup, you could redirect to sign-in page
+    router.push('/signin');
+  } catch (err) {
+    setError('Something went wrong');
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
@@ -11,23 +49,29 @@ const Signup = () => {
               <h2>to Vinz and Vanz</h2>
             </div>
             <Box
-              type='input'
+              type='name'
               label='Name'
-              placeholder='your name'
+              placeholder='Your name'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             >
             </Box>
 
             <Box
-              type='input'
+              type='email'
               label='Email'
-              placeholder='your email'
+              placeholder='Your email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             >
             </Box>
 
             <Box
-              type='password'
+             type='password'
               label='Password'
-              placeholder='your password'
+              placeholder='Your password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             >
             </Box>
 
@@ -35,6 +79,8 @@ const Signup = () => {
               type='signupbutton'
               label='Sign Up'
               path='/signin'
+              handleSignUp={handleSignUp}
+              loading={loading}
             >
 
             </Box>

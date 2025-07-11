@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  align-items: center;       /* vertically center */
+  justify-content: center;   /* horizontally center */
+  height: 50px;
+  width: 100%;
+
+}
+
+.button {
+    height: 50px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    padding: 12px 24px;
+    color: black;
+    font-size: 18px;
+}
+
+.button:hover {
+  background-color: #FF714D;
+}
