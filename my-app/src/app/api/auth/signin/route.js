@@ -1,10 +1,32 @@
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
+
+const prisma = new PrismaClient();
+
 export async function POST(req) {
   const { email, password } = await req.json();
 
-  // Simulated login check — REMOVE once DB is connected
-  if (email !== 'test@example.com' || password !== 'password123') {
-    return new Response(JSON.stringify({ message: 'Invalid credentials' }), { status: 401 });
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user) {
+    return new Response(JSON.stringify({ message: 'User not found' }), {
+      status: 401,
+    });
   }
 
-  return new Response(JSON.stringify({ userId: 'fake-user-id' }), { status: 200 });
+  // ✅ Compare input password with hashed one in DB
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordCorrect) {
+    return new Response(JSON.stringify({ message: 'Invalid credentials' }), {
+      status: 401,
+    });
+  }
+
+  return new Response(
+    JSON.stringify({ userId: user.id, email: user.email }),
+    { status: 200 }
+  );
 }

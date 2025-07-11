@@ -4,7 +4,7 @@ import Navigation from '../../components/Nav'
 import Profile from '../../components/Profile'
 import Dashbutton from '../../components/DashButton'
 
-const page = () => {
+const page = ({ params }) => {
   return (
     <div className={styles.container}>
       <Navigation>
@@ -34,6 +34,10 @@ const page = () => {
         />
         
       </Navigation>
+
+      <div style={{ padding: '1rem' }}>
+        <h2>Welcome, User ID: {params.userId}</h2>
+      </div>
     </div>
   )
 }
