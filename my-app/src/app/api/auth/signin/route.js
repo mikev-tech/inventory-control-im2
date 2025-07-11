@@ -1,5 +1,7 @@
+// /app/api/login/route.js
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
@@ -16,7 +18,6 @@ export async function POST(req) {
     });
   }
 
-  // ✅ Compare input password with hashed one in DB
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
   if (!isPasswordCorrect) {
@@ -25,8 +26,12 @@ export async function POST(req) {
     });
   }
 
-  return new Response(
-    JSON.stringify({ userId: user.id, email: user.email }),
-    { status: 200 }
+  // ✅ Create a JWT token
+  const token = jwt.sign(
+    { id: user.id, email: user.email, name: user.name },
+    process.env.JWT_SECRET, // set this in your .env file
+    { expiresIn: '1h' }
   );
+
+  return new Response(JSON.stringify({ token }), { status: 200 });
 }

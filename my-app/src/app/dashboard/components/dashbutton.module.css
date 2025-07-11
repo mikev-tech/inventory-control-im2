@@ -1,5 +1,4 @@
 .container {
-  display: flex;
   align-items: center;       /* vertically center */
   justify-content: center;   /* horizontally center */
   height: 50px;

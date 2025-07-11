@@ -1,14 +1,13 @@
 import React from 'react'
 import styles from './profile.module.css'
 
-const Profile = () => {
+const Profile = ({name}) => {
   return (
     <>
     <div className={styles.container}>
         <div className={styles.Profile}>
-
         </div>
-        <h1>Name</h1>
+        <h1 style={{color: 'black', fontSize: '22px'}}>{name}</h1>
     </div>
     </>
   )

@@ -1,45 +1,49 @@
-import React from 'react'
-import styles from './user.module.css'
-import Navigation from '../../components/Nav'
-import Profile from '../../components/Profile'
-import Dashbutton from '../../components/DashButton'
+'use client';
 
-const page = ({ params }) => {
+import React, { useEffect, useState } from 'react';
+import styles from './user.module.css';
+import Navigation from '../../components/Nav';
+import Profile from '../../components/Profile';
+import Dashbutton from '../../components/DashButton';
+import axios from 'axios';
+
+const Page = ({ params }) => {
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const res = await axios.get('/api/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserName(res.data.name);
+      } catch (err) {
+        console.error('Failed to fetch user:', err);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   return (
     <div className={styles.container}>
       <Navigation>
-        <Profile />
-        <Dashbutton
-          label='Dashboard'
-        />
+        <Profile name={userName} />
 
-         <Dashbutton
-          label='Products'
-        />
-
-         <Dashbutton
-          label='Sales'
-        />
-
-         <Dashbutton
-          label='Categories'
-        />
-
-         <Dashbutton
-          label='Supplier'
-        />
-
-         <Dashbutton
-          label='System User'
-        />
-        
+        <Dashbutton label='Dashboard' />
+        <Dashbutton label='Products' />
+        <Dashbutton label='Sales' />
+        <Dashbutton label='Categories' />
+        <Dashbutton label='Supplier' />
+        <Dashbutton label='System User' />
       </Navigation>
-
-      <div style={{ padding: '1rem' }}>
-        <h2>Welcome, User ID: {params.userId}</h2>
-      </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;

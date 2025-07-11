@@ -7,9 +7,9 @@
 }
 
 .Profile{
-    height: 100px;
-    width: 100px;
-    border-radius: 50px;
+    height: 200px;
+    width: 200px;
+    border-radius: 120px;
     background-color: gray;
     margin-bottom: 10px;
 }

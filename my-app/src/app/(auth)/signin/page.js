@@ -16,31 +16,31 @@ export default function SignIn() {
   const [error, setError] = useState('');
 
     const handleSignIn = async () => {
-       setLoading(true);
-    try {
-      const res = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      });
+  setLoading(true);
+  try {
+    const res = await fetch('/api/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
 
-      if (!res.ok) {
-        const { message } = await res.json();
-        setError(message || 'Sign in failed');
-        return;
-      }
+    const data = await res.json(); // ✅ Get response first!
 
-      const data = await res.json();
-
-      router.push(`/dashboard/user/${data.userId}`);
-    } catch (err) {
-      setError('Something went wrong');
-    } finally {
-      setLoading(false);
+    if (!res.ok) {
+      setError(data.message || 'Sign in failed');
+      return;
     }
-  };
+
+    localStorage.setItem('token', data.token); // ✅ Now this works
+    router.push(`/dashboard/user/${data.userId}`); // ✅ Redirect
+  } catch (err) {
+    setError('Something went wrong');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className={styles.container}>
