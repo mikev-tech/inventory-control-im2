@@ -1,21 +1,27 @@
 import mysql from 'mysql2/promise';
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 3306,
-  user: process.env.DB_USER || 'root',
-  database: process.env.DB_NAME || 'im2db',
-});
+let pool;
 
-async function testConnection() {
-  try {
-    const [rows] = await pool.query('SELECT 1'); 
-    console.log('Connected to database:', rows);
-  } catch (err) {
-    console.error('Failed to connect to DB:', err);
-  }
+if (!globalThis.dbPool) {
+  globalThis.dbPool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASS || '',
+    database: process.env.DB_NAME || 'im2db',
+    waitForConnections: true,
+    connectionLimit: 10,      // ✅ Limit max active connections
+    queueLimit: 0
+  });
+
+  // Optional: Test only once
+  globalThis.dbPool.query('SELECT 1').then(() => {
+    console.log('✅ MySQL connected');
+  }).catch((err) => {
+    console.error('❌ DB Connection Failed:', err);
+  });
 }
 
-testConnection();
+pool = globalThis.dbPool;
 
 export default pool;

@@ -6,7 +6,7 @@ import styles from './user.module.css'
 const Page = () => {
     return (
       <div>
-        <h1 style={{fontSize: '26px', fontWeight: 'bold', color: 'black', marginLeft: '80px', marginTop: '50px'}}>Inventory Analytics</h1>
+        <h1 style={{fontSize: '26px', fontWeight: 'bold', color: 'black', marginLeft: '80px'}}>Inventory Analytics</h1>
         <div className={styles.content}>
           <Card type='stockitem' description='Low Stock Items' />
           <Card type='sales' description='Total Sales this Month' />
