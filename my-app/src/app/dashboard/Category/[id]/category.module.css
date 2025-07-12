@@ -1,14 +1,13 @@
 .container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    color: black;
-    
+    align-items: center;
 }
 
 .content{
     display: flex;
     flex-direction: row;
-    gap: 100px;
-    padding: 50px;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 40px;
 }

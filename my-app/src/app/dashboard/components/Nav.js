@@ -64,8 +64,8 @@ const Nav = () => {
       />
       <DashButton
         label="Categories"
-        path="/dashboard/categories"
-        isActive={pathname === '/dashboard/categories'}
+        path={`/dashboard/Category/${userId}`}
+        isActive={pathname.startsWith(`/dashboard/Category/${userId}`)}
       />
       <DashButton
         label="Supplier"
