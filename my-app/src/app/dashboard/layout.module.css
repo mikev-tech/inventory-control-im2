@@ -1,15 +1,19 @@
 /* layout.module.css */
+
 .container {
   width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: row;
   background-color: #f7f9fc;
+  min-height: 100vh; /* ensures full screen height */
 }
 
-/* Main content */
+/* Let .main shrink if content is short, but stretch if needed */
 .main {
-  flex: 1;
+  flex: 1 0 auto; /* don't force it to grow if not needed */
   padding: 2rem;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 0;
 }

@@ -1,9 +1,10 @@
-.container{
-    width: 300px;
-    height: 1240px;
-    background-color: blue;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
+.container {
+  width: 300px;
+  min-height: 100vh; /* ✅ stretches full height when needed */
+  height: auto;      /* ✅ lets it shrink when not needed */
+  background-color: blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
