@@ -12,8 +12,9 @@ export async function GET(request) {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     const [rows] = await db.query(
-      'SELECT username FROM systemusers WHERE userid = ?', 
+      'SELECT username, profile_picture FROM systemusers WHERE userid = ?', 
       [decoded.id]
     );
 
@@ -21,7 +22,11 @@ export async function GET(request) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ name: rows[0].username });
+    return NextResponse.json({ 
+      name: rows[0].username, 
+      profilePicture: rows[0].profile_picture || '/images/default-avatar.png' 
+    });
+
   } catch (err) {
     console.error('JWT error:', err);
     return NextResponse.json({ message: 'Invalid or expired token' }, { status: 401 });

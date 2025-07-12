@@ -31,3 +31,32 @@
 .logout:hover {
   background-color: #c62828;
 }
+
+.profilePic {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #ccc;
+  margin-bottom: 12px;
+  margin-top: 30px;
+  cursor: pointer; /* 👈 so it feels clickable */
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.name {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.changeProfile{
+    text-decoration: underline;
+    color: orange;
+    cursor: pointer;
+}
