@@ -13,8 +13,9 @@ export async function GET(request) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    // ✅ Make sure 'role' is selected
     const [rows] = await db.query(
-      'SELECT username, profile_picture FROM systemusers WHERE userid = ?', 
+      'SELECT username, profile_picture, role FROM systemusers WHERE userid = ?', 
       [decoded.id]
     );
 
@@ -24,6 +25,7 @@ export async function GET(request) {
 
     return NextResponse.json({ 
       name: rows[0].username, 
+      role: rows[0].role, // ✅ now this will work
       profilePicture: rows[0].profile_picture || '/images/default-avatar.png' 
     });
 

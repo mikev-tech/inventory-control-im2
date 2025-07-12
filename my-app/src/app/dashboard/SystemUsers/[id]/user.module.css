@@ -1,0 +1,77 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content {
+  width: 900px;
+  /* ✅ Remove fixed height */
+  min-height: 200px; /* Optional baseline height */
+  display: flex;
+  justify-content: center;
+  background-color: rgb(3, 185, 64);
+  margin-left: 50px;
+  margin-top: 40px;
+  padding: 20px;
+  color: black;
+}
+
+/* 🧱 Wraps user cards as needed */
+.userList {
+  display: flex;
+  flex-wrap: wrap; /* ✅ allows wrapping */
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.userCard {
+  background: #f0f0f0;
+  padding: 16px 20px;
+  border-radius: 10px;
+  min-width: 140px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profilePic {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.updateBtn {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.updateBtn:hover {
+  background-color: #005fa3;
+}
+
+.deleteBtn {
+  margin-top: 5px;
+  padding: 6px 10px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteBtn:hover {
+  background-color: #c9302c;
+}
+

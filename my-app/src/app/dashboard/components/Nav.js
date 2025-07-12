@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation';
 const Nav = () => {
   const [userName, setUserName] = useState('');
   const [userId, setUserId] = useState('');
-  const [hasMounted, setHasMounted] = useState(false);
+  const [userRole, setUserRole] = useState('');
   const pathname = usePathname();
 
   // Get userId from localStorage after mount
@@ -18,11 +18,10 @@ const Nav = () => {
     if (typeof window !== 'undefined') {
       const id = localStorage.getItem('userId');
       if (id) setUserId(id);
-      setHasMounted(true); // now we can safely render
     }
   }, []);
 
-  // Fetch user name via token
+  // Fetch user name and role via token
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem('token');
@@ -33,14 +32,19 @@ const Nav = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserName(res.data.name);
+        setUserRole(res.data.role); // ✅ save the role
+        console.log('📦 /api/me response:', res.data); // ✅ now inside
+        setUserName(res.data.name);
+        setUserRole(res.data.role);
+        console.log('🧑‍💻 Role set in state:', res.data.role);
       } catch (err) {
         console.error('Failed to fetch user:', err);
       }
     };
 
+
     fetchUser();
   }, []);
-
 
   return (
     <div className={styles.container}>
@@ -57,26 +61,32 @@ const Nav = () => {
         path={`/dashboard/products/${userId}`}
         isActive={pathname.startsWith(`/dashboard/products/${userId}`)}
       />
+
       <DashButton
         label="Sales"
         path={`/dashboard/Sales/${userId}`}
         isActive={pathname.startsWith(`/dashboard/Sales/${userId}`)}
       />
+
       <DashButton
         label="Categories"
         path={`/dashboard/Category/${userId}`}
         isActive={pathname.startsWith(`/dashboard/Category/${userId}`)}
       />
+
       <DashButton
         label="Supplier"
-        path="/dashboard/supplier"
-        isActive={pathname === '/dashboard/supplier'}
+        path={`/dashboard/Suppliers/${userId}`}
+        isActive={pathname.startsWith(`/dashboard/Suppliers/${userId}`)}
       />
-      <DashButton
+
+      {userRole?.toLowerCase() === 'admin' && (
+        <DashButton
         label="System User"
-        path="/dashboard/system-user"
-        isActive={pathname === '/dashboard/system-user'}
-      />
+        path={`/dashboard/SystemUsers/${userId}`}
+        isActive={pathname.startsWith(`/dashboard/SystemUsers/${userId}`)}
+        />
+      )}
     </div>
   );
 };
