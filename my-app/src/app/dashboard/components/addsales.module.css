@@ -1,0 +1,16 @@
+.container{
+    height: 100px;
+    width: 600px;
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: black;
+    border-radius: 10px;
+}
+
+.container:hover{
+    background-color: rgb(167, 49, 49);
+}
