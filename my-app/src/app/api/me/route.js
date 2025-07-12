@@ -1,27 +1,29 @@
-// /app/api/me/route.js
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import db from '../../lib/db'; 
 
 export async function GET(request) {
   const authHeader = request.headers.get('authorization');
   if (!authHeader) {
-    return NextResponse.json({ message: 'No token' }, { status: 401 });
+    return NextResponse.json({ message: 'No token provided' }, { status: 401 });
   }
 
   const token = authHeader.split(' ')[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const [rows] = await db.query(
+      'SELECT username FROM systemusers WHERE userid = ?', 
+      [decoded.id]
+    );
 
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.id },
-    });
+    if (rows.length === 0) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
 
-    return NextResponse.json({ name: user.name });
+    return NextResponse.json({ name: rows[0].username });
   } catch (err) {
-    return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
+    console.error('JWT error:', err);
+    return NextResponse.json({ message: 'Invalid or expired token' }, { status: 401 });
   }
 }

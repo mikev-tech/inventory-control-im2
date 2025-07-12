@@ -6,6 +6,9 @@ import Navigation from '../../components/Nav';
 import Profile from '../../components/Profile';
 import Dashbutton from '../../components/DashButton';
 import axios from 'axios';
+import Card from '../../components/Card'
+import Products from '../../components/TopProducts'
+import Invoice from '../../components/Invoice'
 
 const Page = ({ params }) => {
   const [userName, setUserName] = useState('');
@@ -42,6 +45,33 @@ const Page = ({ params }) => {
         <Dashbutton label='Supplier' />
         <Dashbutton label='System User' />
       </Navigation>
+
+      
+      <div className={styles.main}>
+        <div>
+          <h1 style={{fontSize: '28px'}}>
+            Inventory Analytics
+          </h1>
+        </div>
+        <div className={styles.content}>
+          <Card 
+            type='stockitem'
+            description='Low Stock Items'
+          />
+          <Card 
+            type='sales'
+            description='Total Sales this Month'
+          />
+        </div>
+
+        <div className={styles.main2}>
+            <Products/>
+            <Invoice />
+        </div>
+      </div>
+
+
+ 
     </div>
   );
 };

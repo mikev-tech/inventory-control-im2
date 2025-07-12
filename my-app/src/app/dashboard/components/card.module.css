@@ -1,0 +1,21 @@
+.stockitems{
+    height: 200px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    background-color: #D06052;
+    color:black;
+}
+
+.sales{
+    height: 200px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    background-color: #839F80;
+    color: black;
+}

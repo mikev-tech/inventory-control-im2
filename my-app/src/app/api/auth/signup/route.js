@@ -1,35 +1,32 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '../../../lib/prisma';
+import db from '../../../lib/db'; 
 import bcrypt from 'bcryptjs';
 
 export async function POST(req) {
   try {
     const { name, email, password } = await req.json();
 
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email }
-    });
+    const [existing] = await db.query('SELECT * FROM systemusers WHERE email = ?', [email]);
 
-    if (existingUser) {
-      return NextResponse.json({ message: 'User already exists' }, { status: 400 });
+    if (existing.length > 0) {
+      return new Response(JSON.stringify({ message: 'User already exists' }), { status: 400 });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ✅ Correct data object — no extra comma or braces
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword
-      }
-    });
+    const [result] = await db.query(
+      'INSERT INTO systemusers (username, email, password) VALUES (?, ?, ?)',
+      [name, email, hashedPassword]
+    );
 
-    return NextResponse.json({ message: 'User created', user }, { status: 201 });
+    return new Response(
+      JSON.stringify({
+        message: 'User created',
+        userId: result.insertId,
+      }),
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Signup error:', error);
-    return NextResponse.json({ message: 'Sign up failed' }, { status: 500 });
+    return new Response(JSON.stringify({ message: 'Signup failed' }), { status: 500 });
   }
 }
