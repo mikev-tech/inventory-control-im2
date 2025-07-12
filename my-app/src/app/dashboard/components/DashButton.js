@@ -1,13 +1,14 @@
+// components/DashButton.js
+'use client';
 import React from 'react';
+import Link from 'next/link';
 import styles from './dashbutton.module.css';
 
-const DashButton = ({ label, path }) => {
+const DashButton = ({ label, path, isActive }) => {
   return (
-    <div className={styles.container}>
-      <button className={styles.button}>
-        <h1>{label}</h1>
-      </button>
-    </div>
+    <Link href={path} className={`${styles.button} ${isActive ? styles.active : ''}`}>
+      {label}
+    </Link>
   );
 };
 

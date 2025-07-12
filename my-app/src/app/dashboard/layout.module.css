@@ -1,0 +1,15 @@
+/* layout.module.css */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  background-color: #f7f9fc;
+}
+
+/* Main content */
+.main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}

@@ -34,7 +34,9 @@ export default function SignIn() {
     }
 
     localStorage.setItem('token', data.token); // ✅ Now this works
+    localStorage.setItem('userId', data.userId); 
     router.push(`/dashboard/user/${data.userId}`); // ✅ Redirect
+    
   } catch (err) {
     setError('Something went wrong');
   } finally {
