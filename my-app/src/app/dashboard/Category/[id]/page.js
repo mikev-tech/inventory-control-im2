@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './category.module.css'
 import ViewCategory from '../../components/viewCategory'
-import AddCategory from '../../components/addCategory'
 
 const Page = () => {
   return (
@@ -9,7 +8,6 @@ const Page = () => {
         <h1 style={{color: 'black', fontSize: '26px', fontWeight: 'bold', marginTop: '20px'}}>Product Categories </h1>
       <div className={styles.content}>
         <ViewCategory />
-        <AddCategory />
       </div>
     </div>
   )

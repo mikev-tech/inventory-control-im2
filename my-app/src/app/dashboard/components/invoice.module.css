@@ -20,12 +20,13 @@
 }
 
 .card {
-  background-color: #fff;
+  background-color: #e2970c;
   color: #333;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: transform 0.2s ease;
+  width: 250px;
 }
 
 .card:hover {

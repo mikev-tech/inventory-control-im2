@@ -5,15 +5,16 @@ import styles from './invoice.module.css';
 
 const Invoice = () => {
   const [invoices, setInvoices] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [userID, setUserID] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [checkingRole, setCheckingRole] = useState(true);
 
   useEffect(() => {
     const checkUserRole = async () => {
       try {
         const token = localStorage.getItem('token');
-        if (!token) return setIsAdmin(false);
+        if (!token) return;
 
         const res = await fetch('/api/me', {
           headers: {
@@ -21,13 +22,13 @@ const Invoice = () => {
           },
         });
 
-        if (!res.ok) return setIsAdmin(false);
+        if (!res.ok) return;
 
         const data = await res.json();
+        setUserID(data.id); // Get the logged-in user ID
         setIsAdmin((data.role || '').toLowerCase() === 'admin');
       } catch (err) {
         console.error('Error checking user role:', err);
-        setIsAdmin(false);
       } finally {
         setCheckingRole(false);
       }
@@ -39,7 +40,14 @@ const Invoice = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const res = await fetch('/api/invoices');
+        const token = localStorage.getItem('token');
+
+        const res = await fetch('/api/invoices', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         const data = await res.json();
         setInvoices(data);
       } catch (err) {
@@ -49,47 +57,97 @@ const Invoice = () => {
       }
     };
 
-    if (isAdmin) {
-      fetchInvoices();
+    if (!checkingRole) fetchInvoices();
+  }, [checkingRole]);
+
+  const handleDeleteInvoice = async (salesID) => {
+    const confirm = window.confirm(`Are you sure you want to delete invoice #${salesID}?`);
+    if (!confirm) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/invoices/${salesID}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.message || 'Failed to delete invoice.');
+      }
+
+      setInvoices((prev) => prev.filter((inv) => inv.salesID !== salesID));
+      alert(`Invoice #${salesID} deleted.`);
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
     }
-  }, [isAdmin]);
+  };
 
   if (checkingRole) return null;
-  if (!isAdmin) return null;
+
+  // Filter invoices if not admin
+  const visibleInvoices = isAdmin
+    ? invoices
+    : invoices.filter((inv) => inv.userID === userID);
 
   return (
-      <>
-        <h1 className={styles.title}>Recently Purchased Invoices</h1>
-        {loading ? (
-          <p className={styles.message}>Loading...</p>
-        ) : invoices.length === 0 ? (
-          <p className={styles.message}>No invoices found.</p>
-        ) : (
-          <div className={styles.grid}>
-            {invoices.map((invoice) => (
-              <div key={invoice.salesID} className={styles.card}>
-                <h3>Invoice #{invoice.salesID}</h3>
-                <p className={styles.date}>
-                  {new Date(invoice.salesDate).toLocaleString('en-PH', {
-                    dateStyle: 'medium',
-                    timeStyle: 'short',
-                  })}
-                </p>
-                <p><strong>User ID:</strong> {invoice.userID}</p> {/* 👈 NEW */}
-                <p><strong>Items:</strong> {invoice.itemCount}</p>
+    <>
+      <h1 className={styles.title}>Purchased Invoices</h1>
+      {loading ? (
+        <p className={styles.message}>Loading...</p>
+      ) : visibleInvoices.length === 0 ? (
+        <p className={styles.message}>No invoices found.</p>
+      ) : (
+        <div className={styles.grid}>
+          {visibleInvoices.map((invoice) => (
+            <div key={invoice.salesID} className={styles.card}>
+              <h3>Invoice #{invoice.salesID}</h3>
+              <p className={styles.date}>
+                {new Date(invoice.salesDate).toLocaleString('en-PH', {
+                  dateStyle: 'medium',
+                  timeStyle: 'short',
+                })}
+              </p>
+              {isAdmin && (
                 <p>
-                  <strong>Total:</strong>{' '}
-                  {Number(invoice.totalAmount).toLocaleString('en-PH', {
-                    style: 'currency',
-                    currency: 'PHP',
-                  })}
+                  <strong>User ID:</strong> {invoice.userID}
                 </p>
-              </div>
-            ))}
-          </div>
-        )}
-      </>
+              )}
+              <p>
+                <strong>Items:</strong> {invoice.itemCount}
+              </p>
+              <p>
+                <strong>Total:</strong>{' '}
+                {Number(invoice.totalAmount).toLocaleString('en-PH', {
+                  style: 'currency',
+                  currency: 'PHP',
+                })}
+              </p>
 
+              {isAdmin && (
+                <button
+                  onClick={() => handleDeleteInvoice(invoice.salesID)}
+                  style={{
+                    marginTop: '10px',
+                    padding: '8px 12px',
+                    backgroundColor: '#c0392b',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 

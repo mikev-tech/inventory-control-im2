@@ -32,11 +32,11 @@ const Nav = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserName(res.data.name);
-        setUserRole(res.data.role); // ✅ save the role
-        console.log('📦 /api/me response:', res.data); // ✅ now inside
+        setUserRole(res.data.role); // save the role
+        console.log('/api/me response:', res.data); //now inside
         setUserName(res.data.name);
         setUserRole(res.data.role);
-        console.log('🧑‍💻 Role set in state:', res.data.role);
+        console.log('Role set in state:', res.data.role);
       } catch (err) {
         console.error('Failed to fetch user:', err);
       }
@@ -73,12 +73,14 @@ const Nav = () => {
         path={`/dashboard/Category/${userId}`}
         isActive={pathname.startsWith(`/dashboard/Category/${userId}`)}
       />
-
-      <DashButton
+      
+      {userRole?.toLowerCase() === 'admin' && (
+        <DashButton
         label="Supplier"
         path={`/dashboard/Suppliers/${userId}`}
         isActive={pathname.startsWith(`/dashboard/Suppliers/${userId}`)}
       />
+      )}
 
       {userRole?.toLowerCase() === 'admin' && (
         <DashButton

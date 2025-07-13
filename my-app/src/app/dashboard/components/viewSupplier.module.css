@@ -1,9 +1,55 @@
-.container{
-    width: 500px;
-    height: 400px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(5, 1, 1);
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  color: #333;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #ccc;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form input {
+  padding: 10px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.form button {
+  padding: 10px 20px;
+  background-color: #2b7cff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f7f7f7;
+}
+
+.delete {
+  background-color: crimson;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
 }
