@@ -1,9 +1,44 @@
-.container{
-    height: 300px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(155, 138, 138);
+.title {
+  text-align: center;
+  font-size: 32px;
+  margin-top: 20px;
+  color: #222;
+}
+
+.message {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 40px;
+  color: #666;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+.card {
+  background-color: #fff;
+  color: #333;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card h3 {
+  margin: 0 0 10px;
+  color: #1a1a1a;
+}
+
+.date {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 10px;
 }

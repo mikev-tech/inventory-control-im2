@@ -5,7 +5,10 @@ import Products from '../../components/products'
 const Page = () => {
   return (
     <div className={styles.container}>
-        <Products />
+        <h1 style={{color: 'black', fontSize: '26px', fontWeight: 'bold'}}>Produt List</h1>
+        <div className={styles.content}>
+          <Products />
+        </div>
     </div>
   )
 }

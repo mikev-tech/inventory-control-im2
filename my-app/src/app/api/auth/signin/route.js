@@ -11,7 +11,7 @@ export async function POST(req) {
     const [rows] = await db.query('SELECT * FROM systemusers WHERE email = ?', [email]);
 
     if (rows.length === 0) {
-      console.log('❌ No user found with that email');
+      console.log('No user found with that email');
       return new Response(JSON.stringify({ message: 'User not found' }), {
         status: 401,
       });
@@ -21,7 +21,7 @@ export async function POST(req) {
     console.log('👤 Found user:', user);
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
-    console.log('🔐 Password match:', isPasswordCorrect);
+    console.log('Password match:', isPasswordCorrect);
 
     if (!isPasswordCorrect) {
       return new Response(JSON.stringify({ message: 'Invalid credentials' }), {
@@ -39,7 +39,7 @@ export async function POST(req) {
       { expiresIn: '1h' }
     );
 
-    console.log('✅ Login successful, token issued');
+    console.log('Login successful, token issued');
 
     return new Response(
       JSON.stringify({
@@ -49,7 +49,7 @@ export async function POST(req) {
       { status: 200 }
     );
   } catch (err) {
-    console.error('💥 Login error:', err);
+    console.error('Login error:', err);
     return new Response(JSON.stringify({ message: 'Server error' }), {
       status: 500,
     });

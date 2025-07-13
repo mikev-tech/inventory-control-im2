@@ -1,11 +1,13 @@
+// /api/invoices/route.js or wherever your API file is
 import { NextResponse } from 'next/server';
-import db from '../../lib/db'; 
+import db from '../../lib/db';
 
 export async function GET() {
   try {
     const [rows] = await db.query(`
       SELECT 
         s.salesID,
+        s.userID,
         s.salesDate,
         s.totalAmount,
         COUNT(si.saleItemID) AS itemCount

@@ -54,30 +54,42 @@ const Invoice = () => {
     }
   }, [isAdmin]);
 
-  if (checkingRole) return null; // wait until role check finishes
-
-  if (!isAdmin) return null; // not admin, render nothing
+  if (checkingRole) return null;
+  if (!isAdmin) return null;
 
   return (
-    <>
-      <h1 className={styles.title}>Recently Purchased Invoices</h1>
-      <div className={styles.container}>
+      <>
+        <h1 className={styles.title}>Recently Purchased Invoices</h1>
         {loading ? (
-          <p>Loading...</p>
+          <p className={styles.message}>Loading...</p>
         ) : invoices.length === 0 ? (
-          <p>No invoices found.</p>
+          <p className={styles.message}>No invoices found.</p>
         ) : (
-          invoices.map((invoice) => (
-            <div key={invoice.salesID} className={styles.card}>
-              <h3>Invoice #{invoice.salesID}</h3>
-              <p>Date: {new Date(invoice.salesDate).toLocaleString()}</p>
-              <p>Items: {invoice.itemCount}</p>
-              <p>Total: ₱{invoice.totalAmount.toFixed(2)}</p>
-            </div>
-          ))
+          <div className={styles.grid}>
+            {invoices.map((invoice) => (
+              <div key={invoice.salesID} className={styles.card}>
+                <h3>Invoice #{invoice.salesID}</h3>
+                <p className={styles.date}>
+                  {new Date(invoice.salesDate).toLocaleString('en-PH', {
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                  })}
+                </p>
+                <p><strong>User ID:</strong> {invoice.userID}</p> {/* 👈 NEW */}
+                <p><strong>Items:</strong> {invoice.itemCount}</p>
+                <p>
+                  <strong>Total:</strong>{' '}
+                  {Number(invoice.totalAmount).toLocaleString('en-PH', {
+                    style: 'currency',
+                    currency: 'PHP',
+                  })}
+                </p>
+              </div>
+            ))}
+          </div>
         )}
-      </div>
-    </>
+      </>
+
   );
 };
 
