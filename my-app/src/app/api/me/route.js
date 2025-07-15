@@ -15,19 +15,22 @@ export async function GET(request) {
 
     // Make sure 'role' is selected
     const [rows] = await db.query(
-      'SELECT username, profile_picture, role FROM systemusers WHERE userid = ?', 
+      'SELECT userid, username, profile_picture, role FROM systemusers WHERE userid = ?', 
       [decoded.id]
     );
+
 
     if (rows.length === 0) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
     return NextResponse.json({ 
-      name: rows[0].username, 
-      role: rows[0].role, // now this will work
-      profilePicture: rows[0].profile_picture || '/images/default-avatar.png' 
+      id: decoded.id,                    // Add this 👈
+      name: rows[0].username,
+      role: rows[0].role,
+      profilePicture: rows[0].profile_picture || '/images/default-avatar.png'
     });
+
 
   } catch (err) {
     console.error('JWT error:', err);

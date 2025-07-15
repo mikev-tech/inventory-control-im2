@@ -85,6 +85,31 @@ const [editProduct, setEditProduct] = useState(null);
   }
 };
 
+    const handleAddToCart = async (itemID) => {
+      try {
+        const token = localStorage.getItem('token');
+        const quantity = quantities[itemID] || 1;
+
+        const res = await fetch('/api/cart', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ jewelryItemID: itemID, quantity }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+
+        alert('Item added to cart!');
+      } catch (err) {
+        console.error('Add to cart error:', err);
+        alert(err.message || 'Failed to add to cart.');
+      }
+    };
+
+
 
   return (
     <div className={styles.container}>
@@ -198,7 +223,12 @@ const [editProduct, setEditProduct] = useState(null);
                         />
                       </td>
                       <td>
-                        <button className={styles.actionBtn}>Add to Cart</button>
+                        <button
+                            className={styles.actionBtn}
+                            onClick={() => handleAddToCart(item.jewelryItemID)}
+                          >
+                            Add to Cart
+                      </button>
                       </td>
                     </>
                   )}
