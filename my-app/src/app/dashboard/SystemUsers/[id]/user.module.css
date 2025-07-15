@@ -1,17 +1,21 @@
 .container {
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .content {
-  width: 1400px;
-  min-height: 400px; 
+  width: 100%;
+  height: auto;
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: rgb(3, 185, 64);
-  margin-left: 50px;
-  margin-top: 40px;
   padding: 20px;
   color: black;
 }
@@ -27,7 +31,7 @@
   background: #f0f0f0;
   padding: 16px 20px;
   border-radius: 10px;
-  min-width: 140px;
+  min-width: 100px;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   font-size: 16px;

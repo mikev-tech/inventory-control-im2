@@ -51,10 +51,9 @@ const Page = () => {
 
   return (
     <div className={styles.container}>
-      <h1 style={{ color: 'black', fontSize: '26px', fontWeight: 'bold', marginLeft: '50px' }}>
+      <h1 style={{ color: 'black', fontSize: '26px', fontWeight: 'bold'}}>
         System Users
       </h1>
-
       <div className={styles.content}>
         {users.length > 0 ? (
           <div className={styles.userList}>

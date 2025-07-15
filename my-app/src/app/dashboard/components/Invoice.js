@@ -101,51 +101,49 @@ const Invoice = () => {
       ) : visibleInvoices.length === 0 ? (
         <p className={styles.message}>No invoices found.</p>
       ) : (
-        <div className={styles.grid}>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Invoice #</th>
+            <th>Date</th>
+            {isAdmin && <th>User ID</th>}
+            <th>Items</th>
+            <th>Total</th>
+            {isAdmin && <th>Actions</th>}
+          </tr>
+        </thead>
+        <tbody>
           {visibleInvoices.map((invoice) => (
-            <div key={invoice.salesID} className={styles.card}>
-              <h3>Invoice #{invoice.salesID}</h3>
-              <p className={styles.date}>
+            <tr key={invoice.salesID}>
+              <td>{invoice.salesID}</td>
+              <td>
                 {new Date(invoice.salesDate).toLocaleString('en-PH', {
                   dateStyle: 'medium',
                   timeStyle: 'short',
                 })}
-              </p>
-              {isAdmin && (
-                <p>
-                  <strong>User ID:</strong> {invoice.userID}
-                </p>
-              )}
-              <p>
-                <strong>Items:</strong> {invoice.itemCount}
-              </p>
-              <p>
-                <strong>Total:</strong>{' '}
+              </td>
+              {isAdmin && <td>{invoice.userID}</td>}
+              <td>{invoice.itemCount}</td>
+              <td>
                 {Number(invoice.totalAmount).toLocaleString('en-PH', {
                   style: 'currency',
                   currency: 'PHP',
                 })}
-              </p>
-
+              </td>
               {isAdmin && (
-                <button
-                  onClick={() => handleDeleteInvoice(invoice.salesID)}
-                  style={{
-                    marginTop: '10px',
-                    padding: '8px 12px',
-                    backgroundColor: '#c0392b',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Delete
-                </button>
+                <td>
+                  <button
+                    onClick={() => handleDeleteInvoice(invoice.salesID)}
+                    className={styles.deleteBtn}
+                  >
+                    Delete
+                  </button>
+                </td>
               )}
-            </div>
+            </tr>
           ))}
-        </div>
+        </tbody>
+      </table>
       )}
     </>
   );

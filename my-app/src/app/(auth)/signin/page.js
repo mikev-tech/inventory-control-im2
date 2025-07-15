@@ -26,16 +26,16 @@ export default function SignIn() {
       body: JSON.stringify({ email, password })
     });
 
-    const data = await res.json(); // ✅ Get response first!
+    const data = await res.json(); 
 
     if (!res.ok) {
       setError(data.message || 'Sign in failed');
       return;
     }
 
-    localStorage.setItem('token', data.token); // ✅ Now this works
+    localStorage.setItem('token', data.token); 
     localStorage.setItem('userId', data.userId); 
-    router.push(`/dashboard/user/${data.userId}`); // ✅ Redirect
+    router.push(`/dashboard/user/${data.userId}`); 
     
   } catch (err) {
     setError('Something went wrong');

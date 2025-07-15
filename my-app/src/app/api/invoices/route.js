@@ -14,7 +14,7 @@ export async function GET() {
       FROM sales s
       LEFT JOIN sale_items si ON s.salesID = si.salesID
       GROUP BY s.salesID
-      ORDER BY s.salesDate DESC
+      ORDER BY s.salesDate ASC
       LIMIT 10
     `);
 

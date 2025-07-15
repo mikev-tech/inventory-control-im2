@@ -1,10 +1,19 @@
 .container{
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .content{
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    width: 100%;
+    padding: 20px;
+    max-width: 900px;
+    height: auto;
+    background-color: chocolate;
 }

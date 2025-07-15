@@ -34,6 +34,7 @@ export async function POST(req) {
         id: user.userid,
         email: user.email,
         name: user.username,
+        role: user.role,
       },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }

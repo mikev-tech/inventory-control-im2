@@ -8,23 +8,26 @@ const Products = () => {
   const [quantities, setQuantities] = useState({});
   const [userRole, setUserRole] = useState('');
   const [authChecked, setAuthChecked] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [editModalOpen, setEditModalOpen] = useState(false);
+const [editProduct, setEditProduct] = useState(null);
 
 
   useEffect(() => {
-    const fetchJewelry = async () => {
-      try {
-        const res = await fetch('/api/jewelry');
-        const data = await res.json();
-        setProducts(data);
-      } catch (err) {
-        console.error('Failed to fetch jewelry items:', err);
-      }
-    };
-
     fetchJewelry();
+    fetchUserRole();
   }, []);
 
-  useEffect(() => {
+  const fetchJewelry = async () => {
+    try {
+      const res = await fetch('/api/jewelry');
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error('Failed to fetch jewelry items:', err);
+    }
+  };
+
   const fetchUserRole = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -35,20 +38,15 @@ const Products = () => {
       });
 
       if (!res.ok) throw new Error('Unauthorized');
-
       const data = await res.json();
-      setUserRole(data.role?.toLowerCase()); // normalize case
+      setUserRole(data.role?.toLowerCase());
     } catch (err) {
       console.error('Role fetch error:', err);
-      setUserRole(null); // block unknown role
+      setUserRole(null);
     } finally {
       setAuthChecked(true);
     }
-    };
-
-    fetchUserRole();
-  }, []);
-
+  };
 
   const handleQuantityChange = (id, value) => {
     setQuantities((prev) => ({
@@ -57,153 +55,179 @@ const Products = () => {
     }));
   };
 
-  const handleAddToCart = async (item) => {
-    const quantity = quantities[item.jewelryItemID] || 1;
+  const filteredProducts = products.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-    if (quantity < 1 || quantity > item.stockQuantity) {
-      alert('Invalid quantity.');
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem('token'); // or use cookie-based auth if you're using that
-
-      const res = await fetch('/api/cart', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // remove if not using JWT
-        },
-        body: JSON.stringify({
-          jewelryItemID: item.jewelryItemID,
-          quantity,
-        }),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Failed to add to cart.');
-      }
-
-      alert(`${item.name} added to cart!`);
-    } catch (err) {
-      console.error('Error adding to cart:', err);
-      alert(err.message || 'Something went wrong.');
-    }
-  };
-
-  const handleRestock = async (item) => {
-  const quantity = quantities[item.jewelryItemID] || 1;
-
-  if (quantity < 1) {
-    alert('Invalid restock quantity.');
-    return;
-  }
+  const handleDeleteProduct = async (id) => {
+  const confirmDelete = window.confirm('Are you sure you want to delete this product?');
+  if (!confirmDelete) return;
 
   try {
     const token = localStorage.getItem('token');
-
-    const res = await fetch('/api/jewelry/restock', {
-      method: 'POST',
+    const res = await fetch(`/api/jewelry/${id}`, {
+      method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        jewelryItemID: item.jewelryItemID,
-        quantity,
-      }),
     });
 
     if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || 'Failed to restock.');
+      const error = await res.text();
+      throw new Error(error || 'Failed to delete product');
     }
 
-    alert(`${item.name} restocked!`);
-    // Optional: refetch items to reflect updated stock
-    const updated = await res.json();
-    setProducts((prev) =>
-      prev.map((prod) =>
-        prod.jewelryItemID === item.jewelryItemID
-          ? { ...prod, stockQuantity: updated.newStock }
-          : prod
-      )
-        );
-      } catch (err) {
-        console.error('Error restocking:', err);
-        alert(err.message || 'Something went wrong.');
-      }
-    };
+    alert('Product deleted successfully.');
+    fetchJewelry();
+  } catch (err) {
+    console.error('Delete error:', err);
+    alert(err.message || 'Something went wrong.');
+  }
+};
 
-  const buttonStyle = {
-    marginTop: '10px',
-    padding: '10px',
-    cursor: 'pointer',
-    backgroundColor: '#222',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    marginRight: '25px',
-  };
 
   return (
     <div className={styles.container}>
-      <div className={styles.main}>
-        {products.map((item) => (
-          <div key={item.jewelryItemID} className={styles.card}>
-            <img src={`/${item.image}`} alt={item.name} className={styles.image} />
-            <div className={styles.details}>
-              <h3>{item.name}</h3>
-              <p>
-                {Number(item.purchaseCost).toLocaleString('en-PH', {
-                  style: 'currency',
-                  currency: 'PHP',
-                  minimumFractionDigits: 2,
-                })}
-              </p>
-              <p>Stock: {item.stockQuantity}</p>
-            {userRole === 'user' && (
-            <>
+
+      {editModalOpen && editProduct && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>Edit Product</h3>
+            <label>
+              Price:
               <input
                 type="number"
-                min="1"
-                max={item.stockQuantity}
-                value={quantities[item.jewelryItemID] || 1}
-                onChange={(e) => handleQuantityChange(item.jewelryItemID, e.target.value)}
-                style={{ width: '35px', marginTop: '5px', color: 'black' }}
+                value={editProduct.purchaseCost}
+                onChange={(e) =>
+                  setEditProduct({ ...editProduct, purchaseCost: e.target.value })
+                }
               />
-              <button
-                onClick={() => handleAddToCart(item)}
-                style={buttonStyle}
-              >
-                Add to Cart
-              </button>
-            </>
-          )}
-
-          {userRole === 'admin' && (
-            <>
+            </label>
+            <label>
+              Stock Quantity:
               <input
                 type="number"
-                min="1"
-                value={quantities[item.jewelryItemID] || 1}
-                onChange={(e) => handleQuantityChange(item.jewelryItemID, e.target.value)}
-                style={{ width: '35px', marginTop: '5px', color: 'black' }}
+                value={editProduct.stockQuantity}
+                onChange={(e) =>
+                  setEditProduct({ ...editProduct, stockQuantity: e.target.value })
+                }
               />
-              <button
-                onClick={() => handleRestock(item)}
-                style={buttonStyle}
-              >
-                Restock
-              </button>
-            </>
-          )}
+            </label>
+            <div className={styles.modalActions}>
+              <button onClick={() => setEditModalOpen(false)}>Cancel</button>
+              <button onClick={async () => {
+                try {
+                  const token = localStorage.getItem('token');
+                  const res = await fetch(`/api/jewelry/${editProduct.jewelryItemID}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                      purchaseCost: editProduct.purchaseCost,
+                      stockQuantity: editProduct.stockQuantity,
+                    }),
+                  });
 
+                  if (!res.ok) throw new Error('Failed to update product');
+
+                  alert('Product updated!');
+                  setEditModalOpen(false);
+                  fetchJewelry();
+                } catch (err) {
+                  console.error('Update error:', err);
+                  alert(err.message || 'Something went wrong.');
+                }
+              }}>
+                Save Changes
+              </button>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+
+      <input
+        type="text"
+        placeholder="Search products..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className={styles.searchBar}
+      />
+
+      {authChecked && (
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Stock</th>
+                {userRole === 'user' && <th>Quantity</th>}
+                {userRole === 'user' && <th>Action</th>}
+                {userRole === 'admin' && <th>Actions</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {filteredProducts.map((item) => (
+                <tr key={item.jewelryItemID}>
+                  <td>
+                    <img src={`/${item.image}`} alt={item.name} className={styles.image} />
+                  </td>
+                  <td>{item.name}</td>
+                  <td>
+                    {Number(item.purchaseCost).toLocaleString('en-PH', {
+                      style: 'currency',
+                      currency: 'PHP',
+                    })}
+                  </td>
+                  <td>{item.stockQuantity}</td>
+                  {userRole === 'user' && (
+                    <>
+                      <td>
+                        <input
+                          type="number"
+                          min="1"
+                          max={item.stockQuantity}
+                          value={quantities[item.jewelryItemID] || 1}
+                          onChange={(e) =>
+                            handleQuantityChange(item.jewelryItemID, e.target.value)
+                          }
+                          style={{ width: '45px', color: 'black' }}
+                        />
+                      </td>
+                      <td>
+                        <button className={styles.actionBtn}>Add to Cart</button>
+                      </td>
+                    </>
+                  )}
+                  {userRole === 'admin' && (
+                  <td>
+                    <button
+                    className={styles.actionBtn}
+                    onClick={() => {
+                      setEditProduct(item);
+                      setEditModalOpen(true);
+                    }}
+                  >
+                    Edit
+                  </button>
+                    <button
+                      className={styles.actionBtn}
+                      onClick={() => handleDeleteProduct(item.jewelryItemID)}
+                      style={{ marginLeft: '8px', backgroundColor: 'red' }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
