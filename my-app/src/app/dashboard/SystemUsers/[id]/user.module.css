@@ -5,9 +5,8 @@
 }
 
 .content {
-  width: 900px;
-  /* ✅ Remove fixed height */
-  min-height: 200px; /* Optional baseline height */
+  width: 1400px;
+  min-height: 400px; 
   display: flex;
   justify-content: center;
   background-color: rgb(3, 185, 64);
@@ -17,10 +16,9 @@
   color: black;
 }
 
-/* 🧱 Wraps user cards as needed */
 .userList {
   display: flex;
-  flex-wrap: wrap; /* ✅ allows wrapping */
+  flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
 }

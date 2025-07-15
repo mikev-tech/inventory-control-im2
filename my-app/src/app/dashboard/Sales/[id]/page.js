@@ -157,7 +157,7 @@ const Page = () => {
           loading ? (
             <p>Loading cart...</p>
           ) : cart.length === 0 ? (
-            <p style={{ marginLeft: '40px' }}>No items in cart.</p>
+            <p style={{ marginLeft: '40px', fontSize: '26px', fontWeight: 'bold'}}>No items in cart.</p>
           ) : (
             <div className={styles.content}>
               {cart.map((item) => (
@@ -180,7 +180,7 @@ const Page = () => {
 
         {saleItems.length > 0 ? (
           <>
-            <h1 style={{ marginTop: '60px', marginBottom: '20px', fontSize: '26px', fontWeight: 'bold' }}>
+            <h1 style={{ marginTop: '60px', marginBottom: '20px', fontSize: '26px', fontWeight: 'bold', marginLeft: '40px', marginTop: '200px'}}>
               Recent Sales
             </h1>
             <div className={styles.content}>

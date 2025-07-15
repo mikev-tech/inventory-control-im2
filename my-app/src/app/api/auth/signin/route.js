@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 export async function POST(req) {
   const { email, password } = await req.json();
 
-  console.log('📩 Attempting login with:', email);
+  console.log('Attempting login with:', email);
 
   try {
     const [rows] = await db.query('SELECT * FROM systemusers WHERE email = ?', [email]);
@@ -18,7 +18,7 @@ export async function POST(req) {
     }
 
     const user = rows[0];
-    console.log('👤 Found user:', user);
+    console.log('Found user:', user);
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     console.log('Password match:', isPasswordCorrect);
