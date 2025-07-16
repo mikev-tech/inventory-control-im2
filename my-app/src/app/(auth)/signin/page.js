@@ -48,7 +48,9 @@ export default function SignIn() {
     <div className={styles.container}>
       <div className={styles.formContainer}>
         <h1>Welcome to</h1>
-        <h1>Vinz and Vanz Jewelry</h1>
+        <h1>
+          <a href="/" className={styles.logoText}>Vinz and Vanz Jewelry</a>
+        </h1>
         <div className={styles.form}>
           <Box
             type='email'

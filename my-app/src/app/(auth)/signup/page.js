@@ -46,7 +46,9 @@ const Signup = () => {
       <div className={styles.formContainer}>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
               <h1 style={{fontSize: '22px'}}>Sign Up</h1>
-              <h2>to Vinz and Vanz</h2>
+              <h2>
+                <a href="/" className={styles.logoText}>Vinz and Vanz Jewelry</a>
+              </h2>
             </div>
             <Box
               type='name'

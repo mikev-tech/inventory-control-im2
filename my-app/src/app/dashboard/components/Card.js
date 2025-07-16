@@ -61,6 +61,21 @@ const Card = ({ type, description }) => {
 
       fetchLowStock();
     }
+
+    // if (type === 'sales' && isAdmin) {
+    //   const fetchSales = async () => {
+    //     try {
+    //       const res = await fetch('/api/low-stock');
+    //       const data = await res.json();
+    //       setLowStockCount(data.count);
+    //     } catch (err) {
+    //       console.error('Error fetching low stock count:', err);
+    //       setLowStockCount(0);
+    //     }
+    //   };
+
+    //   fetchSales();
+    // }
   }, [type, isAdmin]);
 
   if (loading || !isAdmin) return null; // Only render if done loading and is admin

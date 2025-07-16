@@ -7,6 +7,7 @@
     align-items: center;
     background-color: #D06052;
     color:black;
+    border-radius: 8px 8px 0 0;
 }
 
 .sales{
@@ -18,4 +19,5 @@
     align-items: center;
     background-color: #839F80;
     color: black;
+    border-radius: 8px 8px 0 0;
 }

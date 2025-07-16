@@ -44,4 +44,8 @@
   border: 1px solid;
 }
 
-
+.logoText {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: hsla(240, 100%, 50%, 0.80);
+}

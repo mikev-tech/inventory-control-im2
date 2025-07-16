@@ -24,7 +24,7 @@ export default function HomePage() {
           Explore our handcrafted jewelry designed to capture beauty and moments. Start your journey with us today.
         </p>
         <a
-          href="/"
+          href="/signin"
           className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-gray-800 transition font-semibold"
         >
           Get Started
