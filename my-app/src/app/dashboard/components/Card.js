@@ -34,7 +34,6 @@ const Card = ({ type, description }) => {
 
         const data = await res.json();
 
-        // ✅ Case-insensitive role check
         setIsAdmin((data.role || '').toLowerCase() === 'admin');
       } catch (err) {
         console.error('Error fetching user role:', err);
@@ -77,6 +76,7 @@ const Card = ({ type, description }) => {
             marginTop: '60px',
             backgroundColor: '#b85547ff',
             width: '100%',
+            maxWidth: '600px',
             display: 'flex',
             justifyContent: 'center',
           }}
