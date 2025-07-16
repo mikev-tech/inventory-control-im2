@@ -21,11 +21,11 @@ export async function GET(request) {
       // Admin can view all invoices
       query = `
         SELECT 
-          s.salesID,
-          s.userID,
-          s.salesDate,
-          s.totalAmount,
-          COUNT(si.saleItemID) AS itemCount
+        s.salesID,
+        s.userID,
+        s.salesDate,
+        s.totalAmount,
+        COUNT(si.saleItemID) AS itemCount
         FROM sales s
         LEFT JOIN sale_items si ON s.salesID = si.salesID
         GROUP BY s.salesID
@@ -36,11 +36,11 @@ export async function GET(request) {
       // Regular user sees only their invoices
       query = `
         SELECT 
-          s.salesID,
-          s.userID,
-          s.salesDate,
-          s.totalAmount,
-          COUNT(si.saleItemID) AS itemCount
+        s.salesID,
+        s.userID,
+        s.salesDate,
+        s.totalAmount,
+        COUNT(si.saleItemID) AS itemCount
         FROM sales s
         LEFT JOIN sale_items si ON s.salesID = si.salesID
         WHERE s.userID = ?
