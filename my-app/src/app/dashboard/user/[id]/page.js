@@ -10,7 +10,7 @@ const Page = () => {
 
       <div className={styles.content}>
         <Card type="stockitem" description="Low Stock Items" />
-        <Card type="sales" description="Total Sales this Month" />
+        <Card type="sales" description="Total Sales" />
       </div>
 
       <div className={styles.gridSection}>

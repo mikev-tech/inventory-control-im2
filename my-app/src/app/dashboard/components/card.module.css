@@ -6,8 +6,19 @@
     justify-content: end;
     align-items: center;
     background-color: #D06052;
-    color:black;
+    color: black;
     border-radius: 8px 8px 0 0;
+}
+
+.lowStockDesc {
+    margin-top: 60px;
+    background-color: #b85547ff;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    color: white;
 }
 
 .sales{
@@ -20,4 +31,14 @@
     background-color: #839F80;
     color: black;
     border-radius: 8px 8px 0 0;
+}
+
+.salesDesc {
+    margin-top: 60px;
+    background-color: #556d52ff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    color: white;
 }

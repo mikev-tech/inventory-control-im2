@@ -5,6 +5,7 @@ import styles from './card.module.css';
 
 const Card = ({ type, description }) => {
   const [lowStockCount, setLowStockCount] = useState(null);
+  const [sales, setSalesTotal] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -62,20 +63,20 @@ const Card = ({ type, description }) => {
       fetchLowStock();
     }
 
-    // if (type === 'sales' && isAdmin) {
-    //   const fetchSales = async () => {
-    //     try {
-    //       const res = await fetch('/api/low-stock');
-    //       const data = await res.json();
-    //       setLowStockCount(data.count);
-    //     } catch (err) {
-    //       console.error('Error fetching low stock count:', err);
-    //       setLowStockCount(0);
-    //     }
-    //   };
+    if (type === 'sales' && isAdmin) {
+      const fetchSales = async () => {
+        try {
+          const res = await fetch('/api/sales');
+          const data = await res.json();
+          setSalesTotal(data.total);
+        } catch (err) {
+          console.error('Error fetching low stock count:', err);
+          setLowStockCount(0);
+        }
+      };
 
-    //   fetchSales();
-    // }
+      fetchSales();
+    }
   }, [type, isAdmin]);
 
   if (loading || !isAdmin) return null; // Only render if done loading and is admin
@@ -86,16 +87,7 @@ const Card = ({ type, description }) => {
         <h1 style={{ fontSize: '32px' }}>
           {lowStockCount !== null ? lowStockCount : '...'}
         </h1>
-        <div
-          style={{
-            marginTop: '60px',
-            backgroundColor: '#b85547ff',
-            width: '100%',
-            maxWidth: '600px',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
+        <div className={styles.lowStockDesc}>
           <p>{description}</p>
         </div>
       </div>
@@ -105,16 +97,14 @@ const Card = ({ type, description }) => {
   if (type === 'sales') {
     return (
       <div className={styles.sales}>
-        <h1 style={{ fontSize: '32px' }}>P19564.00</h1>
-        <div
-          style={{
-            marginTop: '60px',
-            backgroundColor: '#556d52ff',
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
+        <h1 style={{ fontSize: '32px' }}>
+          {sales !== null ?new Intl.NumberFormat('en-PH',{
+            style: 'currency',
+            currency: 'PHP'
+          }).format(sales)
+          : '...'}
+        </h1>
+        <div className={styles.salesDesc}>
           <p>{description}</p>
         </div>
       </div>
