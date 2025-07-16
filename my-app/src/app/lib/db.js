@@ -10,15 +10,15 @@ if (!globalThis.dbPool) {
     password: process.env.DB_PASS || '',
     database: process.env.DB_NAME || 'im2db',
     waitForConnections: true,
-    connectionLimit: 10,      // ✅ Limit max active connections
+    connectionLimit: 10,      //Limit max active connections
     queueLimit: 0
   });
 
   // Optional: Test only once
   globalThis.dbPool.query('SELECT 1').then(() => {
-    console.log('✅ MySQL connected');
+    console.log('MySQL connected');
   }).catch((err) => {
-    console.error('❌ DB Connection Failed:', err);
+    console.error('DB Connection Failed:', err);
   });
 }
 

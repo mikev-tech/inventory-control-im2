@@ -16,10 +16,10 @@ export async function GET(request) {
 
     const [rows] = await db.query(
       `SELECT 
-        si.saleItemID,
-        si.quantity,
-        si.unitPrice,
-        j.name AS jewelryName
+      si.saleItemID,
+      si.quantity,
+      si.unitPrice,
+      j.name AS jewelryName
       FROM sale_items si
       JOIN jewelry_items j ON si.jewelryItemID = j.jewelryItemID
       JOIN sales s ON si.salesID = s.salesID

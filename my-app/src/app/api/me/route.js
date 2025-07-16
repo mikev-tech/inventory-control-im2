@@ -13,19 +13,17 @@ export async function GET(request) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Make sure 'role' is selected
     const [rows] = await db.query(
       'SELECT userid, username, profile_picture, role FROM systemusers WHERE userid = ?', 
       [decoded.id]
     );
-
 
     if (rows.length === 0) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
     return NextResponse.json({ 
-      id: decoded.id,                    // Add this 👈
+      id: decoded.id,                   
       name: rows[0].username,
       role: rows[0].role,
       profilePicture: rows[0].profile_picture || '/images/default-avatar.png'

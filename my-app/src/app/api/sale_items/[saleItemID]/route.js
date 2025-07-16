@@ -15,7 +15,7 @@ export async function DELETE(request, { params }) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Optional: Only allow admins to delete sale items
+  // Only allow admins to delete sale items
     const [userRows] = await db.query('SELECT role FROM systemusers WHERE userID = ?', [decoded.id]);
     if (userRows[0]?.role?.toLowerCase() !== 'admin') {
       return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
