@@ -5,15 +5,23 @@ import styles from './viewCategory.module.css';
 
 const ViewCategory = () => {
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
   const [userRole, setUserRole] = useState('');
+  const [expandedCategory, setExpandedCategory] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await fetch('/api/categories');
       const data = await res.json();
       setCategories(data);
+    };
+
+    const fetchProducts = async () => {
+      const res = await fetch('/api/jewelry');
+      const data = await res.json();
+      setProducts(data);
     };
 
     const fetchUserRole = async () => {
@@ -28,13 +36,14 @@ const ViewCategory = () => {
 
       if (res.ok) {
         const data = await res.json();
-        setUserRole(data.role); // e.g., 'Admin'
+        setUserRole(data.role);
       } else {
         setUserRole('guest');
       }
     };
 
     fetchCategories();
+    fetchProducts();
     fetchUserRole();
   }, []);
 
@@ -75,6 +84,10 @@ const ViewCategory = () => {
     setCategories(categories.filter((cat) => cat.categoryID !== id));
   };
 
+  const toggleDropdown = (categoryID) => {
+    setExpandedCategory(expandedCategory === categoryID ? null : categoryID);
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Manage Product Categories</h1>
@@ -107,32 +120,76 @@ const ViewCategory = () => {
             <th className={styles.th}>ID</th>
             <th className={styles.th}>Name</th>
             <th className={styles.th}>Image</th>
+            <th className={styles.th}>Show Products</th>
             {userRole === 'Admin' && <th className={styles.th}>Actions</th>}
           </tr>
         </thead>
         <tbody>
           {categories.map((cat) => (
-            <tr key={cat.categoryID} className={styles.tr}>
-              <td className={styles.td}>{cat.categoryID}</td>
-              <td className={styles.td}>{cat.name}</td>
-              <td className={styles.td}>
-                <img
-                  src={`/${cat.image}`}
-                  alt={cat.name}
-                  className={styles.image}
-                />
-              </td>
-              {userRole === 'Admin' && (
+            <React.Fragment key={cat.categoryID}>
+              <tr className={styles.tr}>
+                <td className={styles.td}>{cat.categoryID}</td>
+                <td className={styles.td}>{cat.name}</td>
+                <td className={styles.td}>
+                  <img src={`/${cat.image}`} alt={cat.name} className={styles.image} />
+                </td>
                 <td className={styles.td}>
                   <button
-                    onClick={() => handleDelete(cat.categoryID)}
-                    className={styles.actionBtn}
+                    onClick={() => toggleDropdown(cat.categoryID)}
+                    className={styles.button}
                   >
-                    Delete
+                    {expandedCategory === cat.categoryID ? 'Hide' : 'Show'}
                   </button>
                 </td>
+                {userRole === 'Admin' && (
+                  <td className={styles.td}>
+                    <button
+                      onClick={() => handleDelete(cat.categoryID)}
+                      className={styles.actionBtn}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
+              </tr>
+
+              {/* Dropdown Section */}
+              {expandedCategory === cat.categoryID && (
+                <tr className={styles.tr}>
+                  <td colSpan={userRole === 'Admin' ? 5 : 4} className={styles.td}>
+                    <div>
+                      <strong>Products in "{cat.name}":</strong>
+                      <table className={styles.subTable}>
+                    <thead>
+                      <tr>
+                        <th className={styles.th}>ID</th>
+                        <th className={styles.th}>Name</th>
+                        <th className={styles.th}>Image</th>
+                        <th className={styles.th}>Price</th>
+                        <th className={styles.th}>Stock</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {products
+                      .filter((item) => item.categoryID === cat.categoryID)
+                      .map((item) => (
+                        <tr key={item.jewelryItemID} className={styles.tr}>
+                          <td className={styles.td}>{item.jewelryItemID}</td>
+                          <td className={styles.td}>{item.name}</td>
+                          <td className={styles.td}>
+                            <img src={`/${item.image}`} alt={item.name} className={styles.image} />
+                          </td>
+                          <td className={styles.td}>₱{item.purchaseCost}</td>
+                          <td className={styles.td}>{item.stockQuantity}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+                    </div>
+                  </td>
+                </tr>
               )}
-            </tr>
+            </React.Fragment>
           ))}
         </tbody>
       </table>

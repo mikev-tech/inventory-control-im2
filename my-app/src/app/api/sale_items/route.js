@@ -14,18 +14,43 @@ export async function GET(request) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const [rows] = await db.query(
-      `SELECT 
-      si.saleItemID,
-      si.quantity,
-      si.unitPrice,
-      j.name AS jewelryName
-      FROM sale_items si
-      JOIN jewelry_items j ON si.jewelryItemID = j.jewelryItemID
-      JOIN sales s ON si.salesID = s.salesID
-      WHERE s.userID = ?`,
-      [decoded.id]
-    );
+    // Fetch user role from DB
+    const [users] = await db.query('SELECT role FROM systemusers WHERE userID = ?', [decoded.id]);
+
+    if (users.length === 0) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+
+    const role = users[0].role;
+
+    let rows;
+    if (role === 'Admin') {
+      // Admin can view all sale items
+      [rows] = await db.query(`
+        SELECT 
+          si.saleItemID,
+          si.quantity,
+          si.unitPrice,
+          j.name AS jewelryName,
+          s.userID
+        FROM sale_items si
+        JOIN jewelry_items j ON si.jewelryItemID = j.jewelryItemID
+        JOIN sales s ON si.salesID = s.salesID
+      `);
+    } else {
+      // Normal user: only their own sale items
+      [rows] = await db.query(`
+        SELECT 
+          si.saleItemID,
+          si.quantity,
+          si.unitPrice,
+          j.name AS jewelryName
+        FROM sale_items si
+        JOIN jewelry_items j ON si.jewelryItemID = j.jewelryItemID
+        JOIN sales s ON si.salesID = s.salesID
+        WHERE s.userID = ?
+      `, [decoded.id]);
+    }
 
     return NextResponse.json(rows, { status: 200 });
   } catch (err) {
