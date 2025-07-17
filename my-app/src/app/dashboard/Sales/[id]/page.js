@@ -67,27 +67,29 @@ const Page = () => {
   }, [userRole]);
 
   // Fetch sale items (only if user)
-  useEffect(() => {
-    const fetchSaleItems = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const res = await fetch('/api/sale_items', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+// Fetch sale items for admin and user
+useEffect(() => {
+  const fetchSaleItems = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('/api/sale_items', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        const data = await res.json();
-        if (Array.isArray(data)) setSaleItems(data);
-      } catch (err) {
-        console.error('Failed to fetch sale items:', err);
-      }
-    };
-
-    if (userRole === 'user') {
-      fetchSaleItems();
+      const data = await res.json();
+      if (Array.isArray(data)) setSaleItems(data);
+    } catch (err) {
+      console.error('Failed to fetch sale items:', err);
     }
-  }, [userRole]);
+  };
+
+  if (userRole === 'user' || userRole === 'Admin') {
+    fetchSaleItems();
+  }
+}, [userRole]);
+
 
   // Delete cart item
   const handleDelete = async (cartID) => {

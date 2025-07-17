@@ -3,7 +3,7 @@ import db from '../../../lib/db';
 
 export async function DELETE(req, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const result = await db.query('DELETE FROM jewelry_items WHERE jewelryItemID = ?', [id]);
 
     if (result[0].affectedRows === 0) {
