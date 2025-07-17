@@ -6,7 +6,7 @@ export async function GET() {
     const [rows] = await db.query(`
       SELECT jewelryItemID, name, image, stockQuantity
       FROM jewelry_items
-      WHERE top_selling = TRUE
+      WHERE top_selling=TRUE
     `);
 
     return NextResponse.json(rows); 
