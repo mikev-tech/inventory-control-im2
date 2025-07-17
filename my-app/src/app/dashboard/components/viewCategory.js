@@ -170,7 +170,7 @@ const ViewCategory = () => {
                 <tr className={styles.tr}>
                   <td colSpan={userRole === 'Admin' ? 5 : 4} className={styles.td}>
                     <div>
-                      <strong>Products in "{cat.name}":</strong>
+                      <strong>Products in {cat.name}:</strong>
                       <table className={styles.subTable}>
                     <thead>
                       <tr>
@@ -188,8 +188,16 @@ const ViewCategory = () => {
                         <tr key={item.jewelryItemID} className={styles.tr}>
                           <td className={styles.td}>{item.jewelryItemID}</td>
                           <td className={styles.td}>{item.name}</td>
-                          <td className={styles.td}>
-                            <img src={`/${item.image}`} alt={item.name} className={styles.image} />
+                          <td className={styles.td}>         
+                          <img
+                            src={
+                              item.image.startsWith('uploads/')
+                                ? `/${item.image}`
+                                : `/uploads/${item.image}`
+                              }
+                              alt={item.name}
+                              className={styles.image}
+                          />
                           </td>
                           <td className={styles.td}>₱{item.purchaseCost}</td>
                           <td className={styles.td}>{item.stockQuantity}</td>

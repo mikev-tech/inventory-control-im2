@@ -8,6 +8,19 @@ const AuditLogs = () => {
   const [userRole, setUserRole] = useState('');
   const [audits, setAudits] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
+  const [auditLogs, setAuditLogs] = useState([]);
+
+
+  useEffect(() => {
+  const fetchAuditLogs = async () => {
+    const res = await fetch('/api/inventory_audits'); // Your backend route
+    const data = await res.json();
+    setAuditLogs(data); // New state for audit logs
+  };
+
+  fetchAuditLogs();
+}, []);
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -76,6 +89,27 @@ const AuditLogs = () => {
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+const handleDeleteAudit = async (auditID) => {
+  const confirmed = confirm('Are you sure you want to delete this audit entry?');
+  if (!confirmed) return;
+
+  try {
+    const res = await fetch(`/api/audit_Logs/${auditID}`, {
+      method: 'DELETE',
+    });
+
+    const data = await res.json();
+    alert(data.message);
+
+    setAuditLogs((prev) => prev.filter((log) => log.auditID !== auditID));
+  } catch (err) {
+    console.error('Error deleting audit:', err);
+    alert('Failed to delete audit');
+  }
+};
+
+
+
   return (
     <div className={styles.auditContainer}>
       <h2 className={styles.title}>Inventory Audit Logs</h2>
@@ -132,6 +166,46 @@ const AuditLogs = () => {
           ))}
         </tbody>
       </table>
+
+      <h3 className={styles.title} style={{ marginTop: '40px' }}>Audit History</h3>
+
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th className={styles.cellHeader}>Date</th>
+            <th className={styles.cellHeader}>Item</th>
+            <th className={styles.cellHeader}>Counted</th>
+            <th className={styles.cellHeader}>Notes</th>
+            <th className={styles.cellHeader}>Actions</th>
+          </tr>
+      </thead>
+    <tbody>
+      {auditLogs.map((log) => (
+        <tr key={log.auditID}>
+          <td className={styles.cell}>
+            {new Date(log.audit_date).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </td>
+          <td className={styles.cell}>{log.jewelryName}</td>
+          <td className={styles.cell}>{log.counted_quantity}</td>
+          <td className={styles.cell}>{log.notes}</td>
+          <td className={styles.cell}>
+            <button
+              className={styles.deleteButton}
+              onClick={() => handleDeleteAudit(log.auditID)}
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+
+      </table>
+
     </div>
   );
 };

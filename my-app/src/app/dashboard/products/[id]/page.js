@@ -9,8 +9,8 @@ const Page = () => {
       <h1 style={{ color: 'black', fontSize: '32px', fontWeight: 'bold', marginLeft: '5px', marginBottom: '50px' }}>
         Products
       </h1>
-      <AuditLogs />
       <Products />
+      <AuditLogs />
     </div>
   );
 };
