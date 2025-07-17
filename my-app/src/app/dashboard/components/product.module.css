@@ -112,6 +112,8 @@
   align-items: center;
   justify-content: center;
   z-index: 999;
+  padding: 20px; /* allow space around modal on small screens */
+  box-sizing: border-box;
 }
 
 .modal {
@@ -119,10 +121,13 @@
   padding: 24px 20px;
   border-radius: 12px;
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
+  max-height: 90vh; /* prevent overflow on small screens */
+  overflow-y: auto; /* scroll inside the modal */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   color: #1a1a1a;
   animation: fadeIn 0.25s ease-in-out;
+  box-sizing: border-box;
 }
 
 .modal h3 {
@@ -181,4 +186,33 @@
   border-radius: 0.5rem;
 }
 
+/* Add Button (shared for add/edit modals) */
+.addButton {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.addButton:hover {
+  background-color: #27ae60;
+}
+
+/* Modal Input for Add Product */
+.modal textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  font-size: 15px;
+  resize: vertical;
+  min-height: 60px;
+}
 

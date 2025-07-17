@@ -48,24 +48,28 @@ const ViewCategory = () => {
   }, []);
 
   const handleAdd = async () => {
-    if (!name || !image) return alert('All fields required');
-    const token = localStorage.getItem('token');
+  if (!name || !image) return alert('All fields required');
+  const token = localStorage.getItem('token');
 
-    const res = await fetch('/api/categories', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ name, image }),
-    });
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('image', image);
 
-    const result = await res.json();
-    alert(result.message);
-    setName('');
-    setImage('');
-    window.location.reload();
-  };
+  const res = await fetch('/api/categories', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  const result = await res.json();
+  alert(result.message);
+  setName('');
+  setImage('');
+  window.location.reload();
+};
+
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
@@ -102,12 +106,12 @@ const ViewCategory = () => {
             onChange={(e) => setName(e.target.value)}
           />
           <input
-            type="text"
-            placeholder="Image path"
+            type="file"
+            accept="image/*"
             className={styles.input}
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
+            onChange={(e) => setImage(e.target.files[0])}
           />
+
           <button onClick={handleAdd} className={styles.button}>
             Add Category
           </button>
@@ -130,9 +134,17 @@ const ViewCategory = () => {
               <tr className={styles.tr}>
                 <td className={styles.td}>{cat.categoryID}</td>
                 <td className={styles.td}>{cat.name}</td>
-                <td className={styles.td}>
-                  <img src={`/${cat.image}`} alt={cat.name} className={styles.image} />
-                </td>
+                  <td className={styles.td}>
+                    <img
+                      src={
+                        cat.image.startsWith('uploads/')
+                          ? `/${cat.image}`
+                          : `/uploads/${cat.image}`
+                      }
+                      alt={cat.name}
+                      className={styles.image}
+                    />
+                  </td>
                 <td className={styles.td}>
                   <button
                     onClick={() => toggleDropdown(cat.categoryID)}
