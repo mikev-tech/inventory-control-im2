@@ -24,11 +24,15 @@
 
 .form button {
   padding: 10px 20px;
-  background-color: #2b7cff;
+  background-color: #843B62;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 4px;
+}
+
+.form button:hover {
+  background-color: hsla(328, 38%, 37%, 0.9);
 }
 
 .table {
@@ -43,7 +47,8 @@
 }
 
 .table th {
-  background-color: #f7f7f7;
+  background-color: #0B032D;
+  color: white;
 }
 
 .delete {

@@ -15,9 +15,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(3, 185, 64);
+  /* background-color: rgb(3, 185, 64); */
   padding: 20px;
   color: black;
+  margin-top: 20px;
+
+  /* Styles Convert from Tailwind */
+  background-color: #ffffff;
+  border-radius: 0.5rem 0.5rem 0 0; /* 8px */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease-in-out;
 }
 
 .userList {
@@ -28,7 +37,7 @@
 }
 
 .userCard {
-  background: #f0f0f0;
+  background: #FFB997;
   padding: 16px 20px;
   border-radius: 10px;
   min-width: 100px;
@@ -52,7 +61,7 @@
 .updateBtn {
   margin-top: 8px;
   padding: 6px 10px;
-  background-color: #0077cc;
+  background-color: #843B62;
   color: white;
   border: none;
   border-radius: 4px;
@@ -60,7 +69,7 @@
 }
 
 .updateBtn:hover {
-  background-color: #005fa3;
+  background-color: hsla(328, 38%, 37%, 0.9);
 }
 
 .deleteBtn {

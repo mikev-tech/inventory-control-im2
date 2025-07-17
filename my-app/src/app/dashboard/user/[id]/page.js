@@ -9,7 +9,7 @@ const Page = () => {
       <h1 className={styles.title}>Inventory Analytics</h1>
 
       <div className={styles.content}>
-        <Card type="stockitem" description="Low Stock Items" />
+        <Card type="stockitem" description="Total Low Stock Jewelry" />
         <Card type="sales" description="Total Sales" />
       </div>
 

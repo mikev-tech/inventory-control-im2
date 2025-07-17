@@ -3,11 +3,19 @@
   max-width: 1200px;
   margin: 0 auto; 
   height: auto;
-  background-color:#ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /* background-color:#ccc; */
+  /* border-radius: 10px; */
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); */
   padding: 15px 0;
   color: black;
+
+  /* Style Convert from Tailwind */
+  background-color: #ffffff;
+  border-radius: 0.5rem 0.5rem 0 0; /* 8px */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease-in-out;
 }
 
 .tableContainer {
@@ -33,8 +41,8 @@
 }
 
 .table th {
-  background-color: #e2970c;
-  color: #1a1a1a;
+  background-color: #0B032D;
+  color: white;
 }
 
 .table tr:hover {
@@ -169,6 +177,8 @@
 .searchBar{
   margin-left: 20px;
   border: 1px solid black;
+  padding: 10px;
+  border-radius: 0.5rem;
 }
 
 

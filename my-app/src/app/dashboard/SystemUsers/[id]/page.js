@@ -72,7 +72,7 @@ const Page = () => {
                     value={user.role || ''}
                     onChange={(e) => handleRoleChange(user.userid, e.target.value)}
                     className={styles.roleInput}
-                    style={{ border: '1px solid black', borderRadius: '4px', width: '100px', marginRight: '20px'}}
+                    style={{ border: '1px solid black', borderRadius: '4px', width: '100px', marginRight: '20px', padding: '4px'}}
                   />
                 </p>
                 <button onClick={() => updateRole(user.userid, user.role)} className={styles.updateBtn}>

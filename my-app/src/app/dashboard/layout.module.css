@@ -4,7 +4,8 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  background-color: hsla(328, 38%, 37%, 0.5);
+  /* background-color: hsla(328, 38%, 37%, 0.5); */
+  background-color: #f5f5f5;
   min-height: 100vh; /* ensures full screen height */
 }
 

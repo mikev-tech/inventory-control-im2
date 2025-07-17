@@ -36,7 +36,7 @@
 }
 
 .button {
-  background-color: #0070f3;
+  background-color: #843B62;
   color: #fff;
   border: none;
   padding: 12px 20px;
@@ -47,7 +47,7 @@
 }
 
 .button:hover {
-  background-color: #005bb5;
+  background-color: hsla(328, 38%, 37%, 0.9);
 }
 
 .table {
@@ -63,8 +63,9 @@
 }
 
 .th {
-  background-color: #f5f5f5;
+  background-color: #0B032D;
   font-weight: 600;
+  color: white;
 }
 
 .tr:nth-child(even) {

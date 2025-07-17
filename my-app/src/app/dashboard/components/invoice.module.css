@@ -13,7 +13,7 @@
 }
 
 .table {
-  width: 100%;
+  width: 800px;
   max-width: 1200px;
   height: auto;
   box-sizing: border-box;
@@ -37,8 +37,8 @@
 }
 
 .table th {
-  background-color: #e2970c;
-  color: #1a1a1a;
+  background-color: #0B032D;
+  color: white;
   font-weight: bold;
 }
 

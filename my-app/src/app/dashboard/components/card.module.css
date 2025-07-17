@@ -5,9 +5,19 @@
     flex-direction: column;
     justify-content: end;
     align-items: center;
-    background-color: #D06052;
     color: black;
-    border-radius: 8px 8px 0 0;
+
+    /* Styles Convert from Tailwind */
+    background-color: #ffffff;
+    border-radius: 0.5rem 0.5rem 0 0; /* 8px */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.stockitems:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .lowStockDesc {
@@ -28,9 +38,18 @@
     flex-direction: column;
     justify-content: end;
     align-items: center;
-    background-color: #839F80;
     color: black;
-    border-radius: 8px 8px 0 0;
+
+    background-color: #ffffff;
+    border-radius: 0.5rem 0.5rem 0 0; /* 8px */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.sales:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .salesDesc {
