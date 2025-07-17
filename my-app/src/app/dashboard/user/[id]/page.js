@@ -14,7 +14,6 @@ const Page = () => {
       </div>
 
       <div className={styles.gridSection}>
-        // Top Selling Products
         <Products />
       </div>
 
