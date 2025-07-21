@@ -191,7 +191,7 @@
   display: inline-block;
   margin: 20px 20px 10px auto;
   padding: 10px 20px;
-  background-color: #2ecc71;
+  background-color: hsl(328, 38%, 37%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -204,7 +204,7 @@
 
 
 .addButton:hover {
-  background-color: #27ae60;
+  background-color: hsla(328, 38%, 37%, 0.9);
 }
 
 /* Modal Input for Add Product */
