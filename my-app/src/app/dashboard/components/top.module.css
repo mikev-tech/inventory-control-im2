@@ -4,9 +4,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  max-width: 1200px;       
-  height: 320px;
+  width: 100%;   
+  min-height: 320px;
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
@@ -22,7 +21,8 @@
 
 .scrollContainer {
   overflow-x: auto;
-  width: 1300px;
+  width: 100%;
+  max-width: 1200px;
   padding-bottom: 10px;
   box-sizing: border-box;
   /* background-color: rgb(128, 84, 27); */

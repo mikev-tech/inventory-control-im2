@@ -59,6 +59,24 @@ const StockArrivals = () => {
 
   if (userRole !== 'Admin') return null;
 
+  const handleDelete = async (id) => {
+  const confirmDelete = window.confirm("Are you sure you want to delete this stock arrival?");
+  if (!confirmDelete) return;
+
+  const res = await fetch(`/api/stock_arrivals/${id}`, {
+    method: 'DELETE',
+  });
+
+  const data = await res.json();
+  alert(data.message || 'Deleted');
+
+  // Refresh arrivals after deletion
+  const arrivalsRes = await fetch('/api/stock_arrivals');
+  const arrivalsData = await arrivalsRes.json();
+  setArrivals(arrivalsData);
+};
+
+
   return (
     <div className={styles.arrivalContainer}>
       <h2 className={styles.title}>Stock Arrivals</h2>
@@ -130,16 +148,28 @@ const StockArrivals = () => {
               <th className={styles.cellHeader}>Quantity</th>
               <th className={styles.cellHeader}>Supplier</th>
               <th className={styles.cellHeader}>Cost</th>
+              <th className={styles.cellHeader}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {arrivals.map((a) => (
               <tr key={a.stockArrivalID}>
                 <td className={styles.cell}>{items.find(i => i.jewelryItemID === a.jewelryItemID)?.name || '—'}</td>
-                <td className={styles.cell}>{a.arrivalDate}</td>
+                <td className={styles.cell}>
+                  {new Date(a.arrivalDate).toLocaleDateString('en-PH', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </td>
                 <td className={styles.cell}>{a.quantity}</td>
                 <td className={styles.cell}>{suppliers.find(s => s.supplierID === a.supplierID)?.name || '—'}</td>
                 <td className={styles.cell}>₱{parseFloat(a.unitCost).toFixed(2)}</td>
+                <td className={styles.cell}>
+                  <button className={styles.deleteButton} onClick={() => handleDelete(a.stockArrivalID)}>
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

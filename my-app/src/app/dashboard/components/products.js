@@ -183,7 +183,6 @@ const handleAddProduct = async () => {
           { label: 'Stock Quantity', key: 'stockQuantity', type: 'number' },
           { label: 'Condition', key: 'condition', type: 'text' },
           { label: 'Supplier ID', key: 'supplierID', type: 'number' },
-          { label: 'Top Selling (0 or 1)', key: 'top_selling', type: 'number' }
         ].map(({ label, key, type }) => (
           <label key={key}>
             {label}:

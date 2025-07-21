@@ -3,6 +3,7 @@
   padding: 24px;
   border-radius: 12px;
   margin-bottom: 30px;
+  margin-top: 50px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
   color: #000;
   overflow-x: auto;
@@ -72,4 +73,20 @@
   border: 1px solid #ccc;
   border-radius: 8px;
 }
+
+.deleteButton {
+  padding: 6px 12px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
 
