@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import db from '../../lib/db'; // adjust if your db connection is in a different path
+import db from '../../lib/db'; 
 
 export async function GET() {
   try {

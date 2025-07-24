@@ -1,4 +1,3 @@
-// /app/api/cart/route.js
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import db from '../../lib/db';
