@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
 import styles from './signin.module.css';
 import React from 'react';
-import Link from 'next/link';
 import Box from '../components/Box';
 
 
@@ -15,23 +14,23 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-    const handleSignIn = async () => {
-  setLoading(true);
-  try {
-    const res = await fetch('/api/auth/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
-    });
+  const handleSignIn = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
 
-    const data = await res.json(); 
+      const data = await res.json(); 
 
-    if (!res.ok) {
-      setError(data.message || 'Sign in failed');
-      return;
-    }
+      if (!res.ok) {
+        setError(data.message || 'Sign in failed');
+        return;
+      }
 
     localStorage.setItem('token', data.token); 
     localStorage.setItem('userId', data.userId); 
@@ -80,7 +79,6 @@ export default function SignIn() {
             handleSignin={handleSignIn}
             loading={loading}
           >
-            
           </Box>
         </div>
       </div>

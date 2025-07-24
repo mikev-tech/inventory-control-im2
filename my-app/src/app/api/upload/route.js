@@ -1,7 +1,7 @@
 import db from '../../lib/db'; 
 import jwt from 'jsonwebtoken';
 import path from 'path';
-import { writeFile } from 'fs/promises'; // ✅ Add this line
+import { writeFile } from 'fs/promises'; 
 
 export const POST = async (req) => {
   const data = await req.formData();

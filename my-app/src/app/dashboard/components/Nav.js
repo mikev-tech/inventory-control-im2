@@ -42,7 +42,6 @@ const Nav = () => {
       }
     };
 
-
     fetchUser();
   }, []);
 

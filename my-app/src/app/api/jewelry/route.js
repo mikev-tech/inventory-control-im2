@@ -12,7 +12,6 @@ export const config = {
   export async function POST(req) {
     try {
       const formData = await req.formData();
-
       const name = formData.get('name');
       const description = formData.get('description');
       const categoryID = formData.get('categoryID');
@@ -22,7 +21,6 @@ export const config = {
       const condition = formData.get('condition');
       const supplierID = formData.get('supplierID');
       const top_selling = formData.get('top_selling') || 0;
-
       const imageFile = formData.get('image');
       let imageFilename = '';
 

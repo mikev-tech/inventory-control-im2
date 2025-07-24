@@ -66,7 +66,6 @@ const Page = () => {
     }
   }, [userRole]);
 
-  // Fetch sale items (only if user)
 // Fetch sale items for admin and user
 useEffect(() => {
   const fetchSaleItems = async () => {
@@ -89,8 +88,6 @@ useEffect(() => {
     fetchSaleItems();
   }
 }, [userRole]);
-
-
   // Delete cart item
   const handleDelete = async (cartID) => {
     try {
