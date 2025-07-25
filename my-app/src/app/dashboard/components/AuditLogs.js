@@ -13,9 +13,9 @@ const AuditLogs = () => {
 
   useEffect(() => {
   const fetchAuditLogs = async () => {
-    const res = await fetch('/api/inventory_audits'); // Your backend route
+    const res = await fetch('/api/inventory_audits'); 
     const data = await res.json();
-    setAuditLogs(data); // New state for audit logs
+    setAuditLogs(data);
   };
 
   fetchAuditLogs();
@@ -94,7 +94,7 @@ const handleDeleteAudit = async (auditID) => {
   if (!confirmed) return;
 
   try {
-    const res = await fetch(`/api/audit_Logs/${auditID}`, {
+    const res = await fetch(`/api/inventory_audits/${auditID}`, {
       method: 'DELETE',
     });
 
@@ -107,9 +107,6 @@ const handleDeleteAudit = async (auditID) => {
     alert('Failed to delete audit');
   }
 };
-
-
-
   return (
     <div className={styles.auditContainer}>
       <h2 className={styles.title}>Inventory Audit Logs</h2>

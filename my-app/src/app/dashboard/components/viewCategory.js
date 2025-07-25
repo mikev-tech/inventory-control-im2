@@ -74,7 +74,7 @@ const ViewCategory = () => {
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
 
-    const res = await fetch('/api/categories', {
+    const res = await fetch(`/api/categories/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
